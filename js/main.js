@@ -137,6 +137,8 @@
     initHorizontalScroll();
     initParallaxLayers();
     initStrokeDraw();
+    initMagneticButtons();
+    initTiltCards();
   }
 
   // ページ読み込み完了後にローディングを非表示
@@ -154,7 +156,7 @@
      requestAnimationFrame でスロットリング:
        - ヘッダー背景の切り替え
        - トップへ戻るボタンの表示切り替え
-       - スクロール進捗バーの更新 (Module 15)
+       - スクロール進捗バーの更新
   */
   /** スクロール処理の閾値 */
   const HEADER_SCROLL_THRESHOLD = 50;
@@ -426,7 +428,7 @@
     }
 
     // --- セクション見出しのアニメーション ---
-    // ※ section-heading__ja は文字分割アニメーション(Module 16)が担当
+    // ※ section-heading__ja は文字分割アニメーション(Module 14)が担当
     $$('.section-heading').forEach((heading) => {
       const enEl   = $('.section-heading__en', heading);
       const lineEl = $('.section-heading__line', heading);
@@ -471,7 +473,7 @@
     // --- グループ要素のスタッガー表示 ---
     animateStagger('.notice',        '.notice__item',  { duration: 0.5, stagger: 0.1  });
     animateStagger('.gallery__grid', '.gallery__item', { duration: 0.6, stagger: 0.12 });
-    // ※ exhibition__item は Module 17 clip-path リビールが入場演出を担当。
+    // ※ exhibition__item は Module 15 clip-path リビールが入場演出を担当。
     //   opacity/y スタッガーとの競合（クリップ開放後も opacity:0 のまま）を避け除外。
 
     // --- ヒーロー画像のパララックス ---
@@ -802,6 +804,9 @@
       // ヒーローが画面外ならループを停止
       if (!isHeroVisible) { animId = null; return; }
 
+      // 既にアニメーションループが動作中なら二重起動を防止
+      if (animId) cancelAnimationFrame(animId);
+
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
       particles.forEach((p) => {
@@ -851,10 +856,8 @@
     });
   }
 
-  // 12. カスタムカーソル — 削除済み
-
   /* ============================================
-     13. カウントアップアニメーション
+     12. カウントアップアニメーション
      ============================================
      data-count-target 属性の数値まで、
      スクロールで可視になったとき 0 からカウントアップ。
@@ -895,11 +898,8 @@
     });
   }
 
-  // ※ initCountUp は completeLoading 内で呼び出し、
-  //   GSAP 初期化後に実行されることを保証する
-
   /* ============================================
-     14. ギャラリーライトボックス
+     13. ギャラリーライトボックス
      ============================================
      ギャラリー画像クリックでモーダル表示。
      前後ナビ・Escキー・オーバーレイクリックで閉じる。
@@ -983,6 +983,10 @@
         lightboxImg.style.opacity = '';
         lightboxImg.style.transform = '';
       }
+
+      // 未完了の画像ロードリスナーを除去（ナビ操作→即閉じ時の孤立リスナー防止）
+      lightboxImg.removeEventListener('load',  fadeInLightboxImage);
+      lightboxImg.removeEventListener('error', fadeInLightboxImage);
 
       lightbox.classList.remove('is-open');
       lightbox.setAttribute('aria-hidden', 'true');
@@ -1129,10 +1133,8 @@
 
   initLightbox();
 
-  // 15. スクロール進捗バー — handleScroll (Module 2) に統合済み
-
   /* ============================================
-     16. 文字分割アニメーション (Character Split)
+     14. 文字分割アニメーション (Character Split)
      ============================================
      ヒーローのスライドタイトル・セクション見出しの日本語テキストを
      1文字ずつ分割し、スタッガーでフェードイン + 上昇アニメーション。
@@ -1189,7 +1191,7 @@
   }
 
   /* ============================================
-     17. 画像マスクリビール (Clip-Path Reveal)
+     15. 画像マスクリビール (Clip-Path Reveal)
      ============================================
      About画像・Exhibition画像がスクロールで
      clip-path: inset() を使い「幕が開く」ように出現。
@@ -1217,7 +1219,7 @@
     }
 
     // Exhibition アイテム
-    // ※ デスクトップ (1025px+) では横スクロール (Module 21) が pin する為、
+    // ※ デスクトップ (1025px+) では横スクロール (Module 18) が pin する為、
     //    縦方向 ScrollTrigger が全アイテムで同時発火してしまう。
     //    モバイル／タブレットのみで clip-path reveal を適用する。
     const revealMM = gsap.matchMedia();
@@ -1247,7 +1249,7 @@
   }
 
   /* ============================================
-     18. マグネティックボタン
+     16. マグネティックボタン
      ============================================
      data-magnetic 属性を持つ要素が、マウスが近づくと
      吸い寄せられるように微妙に追従する。
@@ -1256,6 +1258,7 @@
   function initMagneticButtons() {
     if (prefersReducedMotion) return;
     if (!hasHoverCapability) return;
+    if (!hasGSAP) return;
 
     /** マグネティック効果の強度 */
     const STRENGTH_DEFAULT = 0.3;
@@ -1291,10 +1294,8 @@
     if (circleButtons.length) attachMagnetic(circleButtons, STRENGTH_CIRCLE);
   }
 
-  initMagneticButtons();
-
   /* ============================================
-     19. 3Dチルトカード (Perspective Tilt)
+     17. 3Dチルトカード (Perspective Tilt)
      ============================================
      Exhibition・Gallery のカードがマウス位置に応じて
      perspective + rotateX/Y で立体的に傾く。
@@ -1302,6 +1303,7 @@
   function initTiltCards() {
     if (prefersReducedMotion) return;
     if (!hasHoverCapability) return;
+    if (!hasGSAP) return;
 
     const tiltTargets = $$(CARD_TARGETS);
     if (!tiltTargets.length) return;
@@ -1348,12 +1350,8 @@
     });
   }
 
-  initTiltCards();
-
-  // 20. カーソル文字変化 — 削除済み
-
   /* ============================================
-     21. 横スクロール展示 (Horizontal Scroll)
+     18. 横スクロール展示 (Horizontal Scroll)
      ============================================
      デスクトップのみ: 縦スクロールを横方向のカード移動に変換。
      GSAP matchMedia でレスポンシブ対応。
@@ -1398,7 +1396,7 @@
   }
 
   /* ============================================
-     22. Aboutパララックス深度 (Multi-Layer Parallax)
+     19. Aboutパララックス深度 (Multi-Layer Parallax)
      ============================================
      Aboutセクションのテキストと画像が異なる速度で
      スクロールし、Z深度の空間表現を実現。
@@ -1439,7 +1437,7 @@
   }
 
   /* ============================================
-     23. トピックスカード ストロークドロー
+     20. トピックスカード ストロークドロー
      ============================================
      各トピックスカードにSVG枠線をオーバーレイし、
      スクロールで可視になったときに線が描かれる効果。

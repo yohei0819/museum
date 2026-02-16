@@ -892,7 +892,8 @@ button {
 
 .topics__slider {
   overflow: visible;          /* ホバーで浮き上がるカードをクリップしない */
-  clip-path: inset(-20px -20px -20px -20px); /* 横方向のスライド隠しは clip-path で代替 */
+  /* 20pxバッファ付きクリッピング: hover時のtranslateY/box-shadowを許容しつつ画面外スライドを隠す */
+  clip-path: inset(-20px -20px -20px -20px);
   -webkit-clip-path: inset(-20px -20px -20px -20px);
 }
 
