@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <defs>
+    <linearGradient id="blade" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#e8e8e8"/>
+      <stop offset="40%" stop-color="#c0c0c0"/>
+      <stop offset="100%" stop-color="#f5f5f5"/>
+    </linearGradient>
+    <linearGradient id="handle" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#4a3728"/>
+      <stop offset="100%" stop-color="#2c1e14"/>
+    </linearGradient>
+  </defs>
+  <!-- 刀身 (blade) -->
+  <path d="M14 6 L18 6 L52 48 L50 50 Z" fill="url(#blade)" stroke="#999" stroke-width="0.5"/>
+  <!-- 刃文 (hamon line) -->
+  <path d="M16 8 Q30 30 51 49" fill="none" stroke="#ddd" stroke-width="0.8" opacity="0.6"/>
+  <!-- 鍔 (tsuba/guard) -->
+  <ellipse cx="33" cy="27" rx="6" ry="3.5" transform="rotate(45 33 27)" fill="#8B7355" stroke="#5c4a32" stroke-width="0.8"/>
+  <!-- 柄 (handle) -->
+  <path d="M28 30 L30 28 L42 40 L40 42 Z" fill="url(#handle)" stroke="#3a2616" stroke-width="0.5"/>
+  <!-- 柄巻き (handle wrap) -->
+  <line x1="30.5" y1="30.5" x2="32" y2="29" stroke="#8B7355" stroke-width="0.8"/>
+  <line x1="32.5" y1="32.5" x2="34" y2="31" stroke="#8B7355" stroke-width="0.8"/>
+  <line x1="34.5" y1="34.5" x2="36" y2="33" stroke="#8B7355" stroke-width="0.8"/>
+  <line x1="36.5" y1="36.5" x2="38" y2="35" stroke="#8B7355" stroke-width="0.8"/>
+  <line x1="38.5" y1="38.5" x2="40" y2="37" stroke="#8B7355" stroke-width="0.8"/>
+</svg>

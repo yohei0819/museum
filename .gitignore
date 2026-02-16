@@ -1,0 +1,14 @@
+# macOS
+.DS_Store
+*.swp
+*~
+
+# エディタ
+.vscode/
+*.code-workspace
+
+# バックアップファイル
+*.bak
+
+# Node.js（将来追加時用）
+node_modules/

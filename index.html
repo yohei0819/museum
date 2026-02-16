@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="xxxxミュージアム東京 - 日本刀の美と歴史を体感する博物館">
+  <meta name="robots" content="noindex, nofollow">
+  <title>xxxxミュージアム東京 | 日本刀の美と歴史を体感</title>
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="https://via.placeholder.com/32x32/2c1e14/ffffff?text=%E5%88%80">
+  <link rel="apple-touch-icon" href="https://via.placeholder.com/180x180/2c1e14/ffffff?text=%E5%88%80">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&family=Noto+Serif+JP:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Swiper.js CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <!-- OGP / SNSシェア用メタ -->
+  <meta property="og:title" content="xxxxミュージアム東京 | 日本刀の美と歴史を体感">
+  <meta property="og:description" content="国宝・重要文化財を含む200振以上の日本刀を常設展示。xxxx文化を体感できる博物館。">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <!-- カスタムCSS -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- スクロール進捗バー -->
+  <div class="scroll-progress" id="scrollProgress" aria-hidden="true"></div>
+
+  <!-- スキップリンク（キーボードナビゲーション・アクセシビリティ） -->
+  <a href="#main-content" class="skip-link">メインコンテンツへスキップ</a>
+
+  <!-- ローディングオーバーレイ（FOUC防止のためHTML直書き） -->
+  <div class="loading-overlay" id="loadingOverlay" aria-hidden="true">
+    <div class="loading-overlay__icon">⚔</div>
+    <p class="loading-overlay__text">Loading...</p>
+  </div>
+
+  <!-- ===========================
+       ヘッダー / ナビゲーション
+  =========================== -->
+  <header class="header" id="header">
+    <div class="header__inner container">
+      <!-- ロゴ -->
+      <a href="#hero" class="header__logo" aria-label="xxxxミュージアム東京 トップページ">
+        <span class="header__logo-icon">⚔</span>
+        <h1 class="header__logo-text">xxxxミュージアム<br><small>TOKYO</small></h1>
+      </a>
+
+      <!-- PC用ナビゲーション -->
+      <nav class="header__nav" aria-label="メインナビゲーション">
+        <ul class="header__nav-list">
+          <li class="header__nav-item"><a href="#about" class="header__nav-link">博物館紹介</a></li>
+          <li class="header__nav-item"><a href="#topics" class="header__nav-link">イベント</a></li>
+          <li class="header__nav-item"><a href="#exhibition" class="header__nav-link">展示案内</a></li>
+          <li class="header__nav-item"><a href="#access" class="header__nav-link">アクセス</a></li>
+          <li class="header__nav-item"><a href="#contact" class="header__nav-link header__nav-link--cta" data-magnetic>お問い合わせ</a></li>
+        </ul>
+      </nav>
+
+      <!-- ハンバーガーメニューボタン -->
+      <button class="header__hamburger" id="hamburger" aria-label="メニューを開く" aria-expanded="false" aria-controls="mobileMenu">
+        <span class="header__hamburger-line"></span>
+        <span class="header__hamburger-line"></span>
+        <span class="header__hamburger-line"></span>
+      </button>
+    </div>
+
+    <!-- モバイルメニュー -->
+    <div class="header__mobile-menu" id="mobileMenu" aria-hidden="true">
+      <nav aria-label="モバイルナビゲーション">
+        <ul class="header__mobile-list">
+          <li><a href="#about" class="header__mobile-link">博物館紹介</a></li>
+          <li><a href="#topics" class="header__mobile-link">イベント</a></li>
+          <li><a href="#exhibition" class="header__mobile-link">展示案内</a></li>
+          <li><a href="#access" class="header__mobile-link">アクセス</a></li>
+          <li><a href="#contact" class="header__mobile-link">お問い合わせ</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main-content">
+    <!-- ===========================
+         ヒーローセクション
+    =========================== -->
+    <section class="hero" id="hero" aria-label="メインビジュアル">
+      <!-- パーティクル演出用Canvas -->
+      <canvas class="hero__particles" id="heroParticles" aria-hidden="true"></canvas>
+      <!-- Swiperスライダー -->
+      <div class="swiper hero__slider">
+        <div class="swiper-wrapper">
+          <!-- スライド1 -->
+          <div class="swiper-slide hero__slide">
+            <div class="hero__slide-image" style="background-image: url('https://images.unsplash.com/photo-1569995617877-d845becc0d40?w=1920&h=1080&fit=crop&q=80');" role="img" aria-label="侍と日本刀"></div>
+            <div class="hero__slide-overlay">
+              <p class="hero__slide-subtitle">Sword Museum Tokyo</p>
+              <h2 class="hero__slide-title">千年の美、<br>ここに集う。</h2>
+              <p class="hero__slide-desc">日本刀の歴史と技を、五感で体感する特別な空間。</p>
+            </div>
+          </div>
+          <!-- スライド2 -->
+          <div class="swiper-slide hero__slide">
+            <div class="hero__slide-image" style="background-image: url('https://images.unsplash.com/photo-1671015522549-e7aa41ded44f?w=1920&h=1080&fit=crop&q=80');" role="img" aria-label="日本刀の刀身クローズアップ"></div>
+            <div class="hero__slide-overlay">
+              <p class="hero__slide-subtitle">Special Exhibition</p>
+              <h2 class="hero__slide-title">名刀の輝きを<br>間近に。</h2>
+              <p class="hero__slide-desc">国宝・重要文化財を含む200振以上のxxxxを常設展示。</p>
+            </div>
+          </div>
+          <!-- スライド3 -->
+          <div class="swiper-slide hero__slide">
+            <div class="hero__slide-image" style="background-image: url('https://images.unsplash.com/photo-1583684977172-528983104c31?w=1920&h=1080&fit=crop&q=80');" role="img" aria-label="刀を構える武士"></div>
+            <div class="hero__slide-overlay">
+              <p class="hero__slide-subtitle">Experience</p>
+              <h2 class="hero__slide-title">歴史に触れ、<br>心を研ぐ。</h2>
+              <p class="hero__slide-desc">xxxx文化を次世代へ―体験型ワークショップ開催中。</p>
+            </div>
+          </div>
+          <!-- スライド4 -->
+          <div class="swiper-slide hero__slide">
+            <div class="hero__slide-image" style="background-image: url('https://images.unsplash.com/photo-1492571350019-22de08371fd3?w=1920&h=1080&fit=crop&q=80');" role="img" aria-label="日本庭園のある博物館ロビー"></div>
+            <div class="hero__slide-overlay">
+              <p class="hero__slide-subtitle">Garden &amp; Architecture</p>
+              <h2 class="hero__slide-title">静寂の中に<br>宿る美学。</h2>
+              <p class="hero__slide-desc">日本庭園と現代建築が融合した唯一無二のミュージアム。</p>
+            </div>
+          </div>
+        </div>
+        <!-- ナビゲーション -->
+        <div class="swiper-button-prev hero__nav-prev" role="button" tabindex="0" aria-label="前のスライド"></div>
+        <div class="swiper-button-next hero__nav-next" role="button" tabindex="0" aria-label="次のスライド"></div>
+        <div class="swiper-pagination hero__pagination"></div>
+      </div>
+
+      <!-- スクロールダウンインジケーター -->
+      <div class="hero__scroll-indicator" aria-hidden="true">
+        <span class="hero__scroll-text">Scroll</span>
+        <span class="hero__scroll-line"></span>
+      </div>
+
+      <!-- 右側 日付 / ユーティリティエリア -->
+      <div class="hero__info-panel">
+        <div class="hero__date">
+          <p class="hero__date-year" id="heroYear">2026</p>
+          <p class="hero__date-day" id="heroDate">02.14</p>
+        </div>
+        <div class="hero__info-icons">
+          <a href="#" class="hero__info-icon" aria-label="開館カレンダー"><i class="fa-regular fa-calendar"></i></a>
+          <a href="#" class="hero__info-icon" aria-label="QRコード"><i class="fa-solid fa-qrcode"></i></a>
+        </div>
+        <p class="hero__status">
+          <span class="hero__status-dot"></span>本日開館
+        </p>
+      </div>
+    </section>
+
+    <!-- セクションデバイダー: 波紋 -->
+    <div class="section-divider" aria-hidden="true">
+      <svg viewBox="0 0 1440 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M0,30 C120,50 240,10 360,30 C480,50 600,10 720,30 C840,50 960,10 1080,30 C1200,50 1320,10 1440,30 L1440,60 L0,60 Z" fill="var(--color-bg-card)"/>
+        <path d="M0,35 C120,55 240,15 360,35 C480,55 600,15 720,35 C840,55 960,15 1080,35 C1200,55 1320,15 1440,35" fill="none" stroke="var(--color-accent)" stroke-width="0.5" opacity="0.4"/>
+      </svg>
+    </div>
+
+    <!-- ===========================
+         お知らせセクション
+    =========================== -->
+    <section class="notice" id="notice" aria-label="お知らせ">
+      <div class="notice__inner container">
+        <!-- ラベル -->
+        <div class="notice__label">
+          <i class="fa-regular fa-bell notice__icon"></i>
+          <span class="notice__label-text">お知らせ</span>
+        </div>
+        <!-- お知らせリスト -->
+        <ul class="notice__list">
+          <li class="notice__item">
+            <time class="notice__date" datetime="2026-02-14">2026.02.14</time>
+            <span class="notice__tag notice__tag--important">重要</span>
+            <a href="#" class="notice__title">【名刀展覧会】令和8年・新春特別展のお知らせ</a>
+          </li>
+          <li class="notice__item">
+            <time class="notice__date" datetime="2026-02-10">2026.02.10</time>
+            <span class="notice__tag notice__tag--event">イベント</span>
+            <a href="#" class="notice__title">xxxx鍛錬実演会を3月に開催いたします</a>
+          </li>
+          <li class="notice__item">
+            <time class="notice__date" datetime="2026-02-05">2026.02.05</time>
+            <span class="notice__tag notice__tag--info">お知らせ</span>
+            <a href="#" class="notice__title">2月の休館日・開館時間変更について</a>
+          </li>
+          <li class="notice__item">
+            <time class="notice__date" datetime="2026-01-28">2026.01.28</time>
+            <span class="notice__tag notice__tag--info">お知らせ</span>
+            <a href="#" class="notice__title">ミュージアムショップ新商品入荷のお知らせ</a>
+          </li>
+          <li class="notice__item">
+            <time class="notice__date" datetime="2026-01-20">2026.01.20</time>
+            <span class="notice__tag notice__tag--event">イベント</span>
+            <a href="#" class="notice__title">中学生・高校生向け「日本刀文化教室」参加者募集</a>
+          </li>
+        </ul>
+        <a href="#" class="notice__more">すべてのお知らせを見る <i class="fa-solid fa-angle-right"></i></a>
+      </div>
+    </section>
+
+    <!-- セクションデバイダー: 雲 -->
+    <div class="section-divider section-divider--cloud" aria-hidden="true">
+      <svg viewBox="0 0 1440 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M0,40 Q60,20 120,35 Q180,50 240,30 Q300,10 360,25 Q420,40 480,20 Q540,0 600,15 Q660,30 720,20 Q780,10 840,25 Q900,40 960,30 Q1020,20 1080,35 Q1140,50 1200,30 Q1260,10 1320,25 Q1380,40 1440,20 L1440,60 L0,60 Z" fill="var(--color-bg-main)"/>
+        <path d="M0,42 Q60,22 120,37 Q180,52 240,32 Q300,12 360,27 Q420,42 480,22 Q540,2 600,17 Q660,32 720,22 Q780,12 840,27 Q900,42 960,32 Q1020,22 1080,37 Q1140,52 1200,32 Q1260,12 1320,27 Q1380,42 1440,22" fill="none" stroke="var(--color-accent)" stroke-width="0.5" opacity="0.3"/>
+      </svg>
+    </div>
+
+    <!-- ===========================
+         博物館紹介セクション
+    =========================== -->
+    <section class="about" id="about">
+      <div class="about__inner container">
+        <div class="section-heading">
+          <p class="section-heading__en">About Museum</p>
+          <h2 class="section-heading__ja">博物館紹介</h2>
+          <div class="section-heading__line"></div>
+        </div>
+        <div class="about__content js-scroll-fade">
+          <div class="about__text">
+            <p>xxxxミュージアム東京は、日本刀の美術的価値と歴史的意義を広く伝えるために設立された架空の博物館です。</p>
+            <p>国宝・重要文化財を含む200振以上のxxxxを所蔵し、xxxxの鑑賞だけでなく、日本の伝統工芸としての刀鍛冶の技術や、武士の精神文化についても学ぶことができます。</p>
+            <p>四季折々の日本庭園を眺めながら、静寂の中で日本刀と向き合う贅沢な時間をお過ごしください。</p>
+            <!-- カウントアップ数値 -->
+            <div class="about__stats">
+              <div class="about__stat-item">
+                <span class="about__stat-number" data-count-target="200">0</span>
+                <span class="about__stat-suffix">振以上</span>
+                <span class="about__stat-label">所蔵xxxx数</span>
+              </div>
+              <div class="about__stat-item">
+                <span class="about__stat-number" data-count-target="1500">0</span>
+                <span class="about__stat-suffix">年</span>
+                <span class="about__stat-label">xxxxの歴史</span>
+              </div>
+              <div class="about__stat-item">
+                <span class="about__stat-number" data-count-target="50000">0</span>
+                <span class="about__stat-suffix">人/年</span>
+                <span class="about__stat-label">年間来館者数</span>
+              </div>
+            </div>
+            <div class="about__info-box">
+              <div class="about__info-item">
+                <span class="about__info-label">所在地</span>
+                <span class="about__info-value">東京都千代田区（架空の住所）</span>
+              </div>
+              <div class="about__info-item">
+                <span class="about__info-label">開館時間</span>
+                <span class="about__info-value">10:00〜18:00（最終入館 17:30）</span>
+              </div>
+              <div class="about__info-item">
+                <span class="about__info-label">休館日</span>
+                <span class="about__info-value">毎週月曜日（祝日の場合は翌日）</span>
+              </div>
+              <div class="about__info-item">
+                <span class="about__info-label">入館料</span>
+                <span class="about__info-value">一般 1,200円 / 学生 800円 / 中学生以下 無料</span>
+              </div>
+            </div>
+          </div>
+          <div class="about__image">
+            <img src="https://images.unsplash.com/photo-1635517006593-cd753762f253?w=600&h=450&fit=crop&q=80" alt="刀剣展示ケース" loading="lazy">
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- セクションデバイダー: 波紋 -->
+    <div class="section-divider section-divider--reverse" aria-hidden="true">
+      <svg viewBox="0 0 1440 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M0,30 C120,50 240,10 360,30 C480,50 600,10 720,30 C840,50 960,10 1080,30 C1200,50 1320,10 1440,30 L1440,60 L0,60 Z" fill="var(--color-bg-card)"/>
+        <path d="M0,35 C120,55 240,15 360,35 C480,55 600,15 720,35 C840,55 960,15 1080,35 C1200,55 1320,15 1440,35" fill="none" stroke="var(--color-accent)" stroke-width="0.5" opacity="0.4"/>
+      </svg>
+    </div>
+
+    <!-- ===========================
+         トピックスセクション
+    =========================== -->
+    <section class="topics" id="topics">
+      <div class="topics__inner container">
+        <div class="section-heading">
+          <p class="section-heading__en">Topics</p>
+          <h2 class="section-heading__ja">トピックス（展示・イベント・SNSコンテンツ）</h2>
+          <div class="section-heading__line"></div>
+        </div>
+
+        <!-- Swiperカルーセル -->
+        <div class="topics__carousel js-scroll-fade">
+          <div class="swiper topics__slider">
+            <div class="swiper-wrapper">
+              <!-- カード1 -->
+              <div class="swiper-slide topics__card">
+                <a href="#" class="topics__card-link">
+                  <div class="topics__card-image">
+                    <img src="https://images.unsplash.com/photo-1711725637816-b0755c582c86?w=400&h=280&fit=crop&q=80" alt="刀装具と鍔のクローズアップ" loading="lazy">
+                    <span class="topics__card-category topics__card-category--exhibition">展示</span>
+                  </div>
+                  <div class="topics__card-body">
+                    <h3 class="topics__card-title">戦国武将と名刀たち ―天下統一を支えた刃―</h3>
+                    <p class="topics__card-desc">織田信長、豊臣秀吉、徳川家康ゆかりのxxxxを一堂に展示。戦国の世を駆け抜けた名刀の数々をご覧ください。</p>
+                    <time class="topics__card-date" datetime="2026-02-14">2026.02.14</time>
+                  </div>
+                </a>
+              </div>
+              <!-- カード2 -->
+              <div class="swiper-slide topics__card">
+                <a href="#" class="topics__card-link">
+                  <div class="topics__card-image">
+                    <img src="https://images.unsplash.com/photo-1583684977172-528983104c31?w=400&h=280&fit=crop&q=80" alt="刀を持つ武士の姿" loading="lazy">
+                    <span class="topics__card-category topics__card-category--event">イベント</span>
+                  </div>
+                  <div class="topics__card-body">
+                    <h3 class="topics__card-title">刀鍛冶の技 ―鍛錬実演会―</h3>
+                    <p class="topics__card-desc">現代の刀匠による鍛錬の実演を間近で体験。1200度の炎から生まれるxxxxの誕生過程を目撃してください。</p>
+                    <time class="topics__card-date" datetime="2026-03-15">2026.03.15</time>
+                  </div>
+                </a>
+              </div>
+              <!-- カード3 -->
+              <div class="swiper-slide topics__card">
+                <a href="#" class="topics__card-link">
+                  <div class="topics__card-image">
+                    <img src="https://images.unsplash.com/photo-1662826321315-c72a74f871c0?w=400&h=280&fit=crop&q=80" alt="青い背景に置かれた剣" loading="lazy">
+                    <span class="topics__card-category topics__card-category--exhibition">展示</span>
+                  </div>
+                  <div class="topics__card-body">
+                    <h3 class="topics__card-title">江戸時代のxxxx ―泰平の世の美意識―</h3>
+                    <p class="topics__card-desc">戦のない時代に花開いた装飾美。鞘や鍔に施された精緻な意匠から、江戸の美意識を紐解きます。</p>
+                    <time class="topics__card-date" datetime="2026-02-01">2026.02.01</time>
+                  </div>
+                </a>
+              </div>
+              <!-- カード4 -->
+              <div class="swiper-slide topics__card">
+                <a href="#" class="topics__card-link">
+                  <div class="topics__card-image">
+                    <img src="https://images.unsplash.com/photo-1569995617877-d845becc0d40?w=400&h=280&fit=crop&q=80" alt="侍と日本刀" loading="lazy">
+                    <span class="topics__card-category topics__card-category--sns">SNS</span>
+                  </div>
+                  <div class="topics__card-body">
+                    <h3 class="topics__card-title">#xxxxミュージアム フォトコンテスト開催</h3>
+                    <p class="topics__card-desc">館内で撮影したお気に入りの一枚をSNSに投稿しよう！入賞者には限定グッズをプレゼント。</p>
+                    <time class="topics__card-date" datetime="2026-01-25">2026.01.25</time>
+                  </div>
+                </a>
+              </div>
+              <!-- カード5 -->
+              <div class="swiper-slide topics__card">
+                <a href="#" class="topics__card-link">
+                  <div class="topics__card-image">
+                    <img src="https://images.unsplash.com/photo-1671015522549-e7aa41ded44f?w=400&h=280&fit=crop&q=80" alt="日本刀の刀身" loading="lazy">
+                    <span class="topics__card-category topics__card-category--exhibition">展示</span>
+                  </div>
+                  <div class="topics__card-body">
+                    <h3 class="topics__card-title">東海地方ゆかりのxxxx ―美濃伝の系譜―</h3>
+                    <p class="topics__card-desc">関の孫六に代表される美濃伝の名刀を特集。切れ味と美を兼ね備えたxxxxの魅力に迫ります。</p>
+                    <time class="topics__card-date" datetime="2026-01-15">2026.01.15</time>
+                  </div>
+                </a>
+              </div>
+              <!-- カード6 -->
+              <div class="swiper-slide topics__card">
+                <a href="#" class="topics__card-link">
+                  <div class="topics__card-image">
+                    <img src="https://images.unsplash.com/photo-1671015522549-e7aa41ded44f?w=400&h=280&fit=crop&q=80" alt="刀剣展示" loading="lazy">
+                    <span class="topics__card-category topics__card-category--event">イベント</span>
+                  </div>
+                  <div class="topics__card-body">
+                    <h3 class="topics__card-title">全国xxxx大集合 ―各地の博物館から名刀が集結―</h3>
+                    <p class="topics__card-desc">全国10以上の博物館・美術館から選りすぐりの名刀が東京に。この春だけの特別展覧会。</p>
+                    <time class="topics__card-date" datetime="2026-04-01">2026.04.01</time>
+                  </div>
+                </a>
+              </div>
+            </div>
+          </div>
+          <!-- スライダーナビゲーション -->
+          <button class="topics__nav topics__nav--prev" aria-label="前のカードへ"><i class="fa-solid fa-chevron-left"></i></button>
+          <button class="topics__nav topics__nav--next" aria-label="次のカードへ"><i class="fa-solid fa-chevron-right"></i></button>
+          <div class="topics__pagination"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- セクションデバイダー: 雲 -->
+    <div class="section-divider section-divider--cloud" aria-hidden="true">
+      <svg viewBox="0 0 1440 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M0,40 Q60,20 120,35 Q180,50 240,30 Q300,10 360,25 Q420,40 480,20 Q540,0 600,15 Q660,30 720,20 Q780,10 840,25 Q900,40 960,30 Q1020,20 1080,35 Q1140,50 1200,30 Q1260,10 1320,25 Q1380,40 1440,20 L1440,60 L0,60 Z" fill="var(--color-bg-main)"/>
+        <path d="M0,42 Q60,22 120,37 Q180,52 240,32 Q300,12 360,27 Q420,42 480,22 Q540,2 600,17 Q660,32 720,22 Q780,12 840,27 Q900,42 960,32 Q1020,22 1080,37 Q1140,52 1200,32 Q1260,12 1320,27 Q1380,42 1440,22" fill="none" stroke="var(--color-accent)" stroke-width="0.5" opacity="0.3"/>
+      </svg>
+    </div>
+
+    <!-- ===========================
+         展示案内セクション
+    =========================== -->
+    <section class="exhibition" id="exhibition">
+      <div class="exhibition__inner container">
+        <div class="section-heading">
+          <p class="section-heading__en">Exhibition</p>
+          <h2 class="section-heading__ja">展示案内</h2>
+          <div class="section-heading__line"></div>
+        </div>
+        <div class="exhibition__scroll-wrapper">
+          <div class="exhibition__grid">
+            <div class="exhibition__item exhibition__item--large">
+              <img src="https://images.unsplash.com/photo-1671015522549-e7aa41ded44f?w=800&h=500&fit=crop&q=80" alt="刀身の美しい輝き" loading="lazy">
+              <div class="exhibition__item-overlay">
+                <span class="exhibition__item-tag">常設展示</span>
+                <h3 class="exhibition__item-title">日本刀の歴史<br>―古墳時代から現代まで―</h3>
+                <p class="exhibition__item-desc">1500年に及ぶxxxxの歴史を通史的に紹介</p>
+              </div>
+            </div>
+            <div class="exhibition__item">
+              <img src="https://images.unsplash.com/photo-1671015522549-e7aa41ded44f?w=400&h=300&fit=crop&q=80" alt="名刀のクローズアップ" loading="lazy">
+              <div class="exhibition__item-overlay">
+                <span class="exhibition__item-tag">特別展</span>
+                <h3 class="exhibition__item-title">名刀百選</h3>
+                <p class="exhibition__item-desc">厳選された100振の名刀</p>
+              </div>
+            </div>
+            <div class="exhibition__item">
+              <img src="https://images.unsplash.com/photo-1711725637816-b0755c582c86?w=400&h=300&fit=crop&q=80" alt="刀装具の美" loading="lazy">
+              <div class="exhibition__item-overlay">
+                <span class="exhibition__item-tag">常設展示</span>
+                <h3 class="exhibition__item-title">甲冑・武具の間</h3>
+                <p class="exhibition__item-desc">武士の戦装束を一堂に</p>
+              </div>
+            </div>
+            <div class="exhibition__item">
+              <img src="https://images.unsplash.com/photo-1711725637816-b0755c582c86?w=400&h=300&fit=crop&q=80" alt="刀を構える武士" loading="lazy">
+              <div class="exhibition__item-overlay">
+                <span class="exhibition__item-tag">ギャラリー</span>
+                <h3 class="exhibition__item-title">刀装具の美</h3>
+                <p class="exhibition__item-desc">鍔・目貫・小柄の工芸美</p>
+              </div>
+            </div>
+            <div class="exhibition__item">
+              <img src="https://images.unsplash.com/photo-1492571350019-22de08371fd3?w=400&h=300&fit=crop&q=80" alt="日本庭園" loading="lazy">
+              <div class="exhibition__item-overlay">
+                <span class="exhibition__item-tag">施設</span>
+                <h3 class="exhibition__item-title">日本庭園</h3>
+                <p class="exhibition__item-desc">四季折々の風情を楽しむ</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- セクションデバイダー: 波紋 -->
+    <div class="section-divider section-divider--reverse" aria-hidden="true">
+      <svg viewBox="0 0 1440 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M0,30 C120,50 240,10 360,30 C480,50 600,10 720,30 C840,50 960,10 1080,30 C1200,50 1320,10 1440,30 L1440,60 L0,60 Z" fill="var(--color-bg-card)"/>
+        <path d="M0,35 C120,55 240,15 360,35 C480,55 600,15 720,35 C840,55 960,15 1080,35 C1200,55 1320,15 1440,35" fill="none" stroke="var(--color-accent)" stroke-width="0.5" opacity="0.4"/>
+      </svg>
+    </div>
+
+    <!-- ===========================
+         ギャラリーセクション
+    =========================== -->
+    <section class="gallery" id="gallery">
+      <div class="gallery__inner container">
+        <div class="section-heading">
+          <p class="section-heading__en">Gallery</p>
+          <h2 class="section-heading__ja">フォトギャラリー</h2>
+          <div class="section-heading__line"></div>
+        </div>
+        <div class="gallery__grid">
+          <div class="gallery__item">
+            <img src="https://images.unsplash.com/photo-1671015522549-e7aa41ded44f?w=600&h=400&fit=crop&q=80" alt="刀剣が輝く展示室" loading="lazy">
+            <div class="gallery__item-caption">
+              <h3>エントランスホール</h3>
+              <p>光と影が織りなす荘厳な空間</p>
+            </div>
+          </div>
+          <div class="gallery__item">
+            <img src="https://images.unsplash.com/photo-1662826321315-c72a74f871c0?w=600&h=400&fit=crop&q=80" alt="展示された剣" loading="lazy">
+            <div class="gallery__item-caption">
+              <h3>第一展示室</h3>
+              <p>国宝xxxxを展示するメインギャラリー</p>
+            </div>
+          </div>
+          <div class="gallery__item">
+            <img src="https://images.unsplash.com/photo-1711725637816-b0755c582c86?w=600&h=400&fit=crop&q=80" alt="刀装具コレクション" loading="lazy">
+            <div class="gallery__item-caption">
+              <h3>第二展示室</h3>
+              <p>甲冑と武具のコレクション</p>
+            </div>
+          </div>
+          <div class="gallery__item">
+            <img src="https://images.unsplash.com/photo-1569995617877-d845becc0d40?w=600&h=400&fit=crop&q=80" alt="侍と日本刀" loading="lazy">
+            <div class="gallery__item-caption">
+              <h3>ミュージアムショップ</h3>
+              <p>xxxxをモチーフにしたオリジナルグッズ</p>
+            </div>
+          </div>
+          <div class="gallery__item">
+            <img src="https://images.unsplash.com/photo-1554907984-15263bfd63bd?w=600&h=400&fit=crop&q=80" alt="日本庭園" loading="lazy">
+            <div class="gallery__item-caption">
+              <h3>日本庭園</h3>
+              <p>池泉回遊式の美しい庭園</p>
+            </div>
+          </div>
+          <div class="gallery__item">
+            <img src="https://images.unsplash.com/photo-1711725637816-b0755c582c86?w=600&h=400&fit=crop&q=80" alt="刀を持つ武士" loading="lazy">
+            <div class="gallery__item-caption">
+              <h3>カフェ「刀匠」</h3>
+              <p>庭園を眺めながら一息つけるカフェ</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- セクションデバイダー: 雲 -->
+    <div class="section-divider section-divider--cloud" aria-hidden="true">
+      <svg viewBox="0 0 1440 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M0,40 Q60,20 120,35 Q180,50 240,30 Q300,10 360,25 Q420,40 480,20 Q540,0 600,15 Q660,30 720,20 Q780,10 840,25 Q900,40 960,30 Q1020,20 1080,35 Q1140,50 1200,30 Q1260,10 1320,25 Q1380,40 1440,20 L1440,60 L0,60 Z" fill="var(--color-bg-main)"/>
+        <path d="M0,42 Q60,22 120,37 Q180,52 240,32 Q300,12 360,27 Q420,42 480,22 Q540,2 600,17 Q660,32 720,22 Q780,12 840,27 Q900,42 960,32 Q1020,22 1080,37 Q1140,52 1200,32 Q1260,12 1320,27 Q1380,42 1440,22" fill="none" stroke="var(--color-accent)" stroke-width="0.5" opacity="0.3"/>
+      </svg>
+    </div>
+
+    <!-- ===========================
+         アクセスセクション
+    =========================== -->
+    <section class="access" id="access">
+      <div class="access__inner container">
+        <div class="section-heading">
+          <p class="section-heading__en">Access</p>
+          <h2 class="section-heading__ja">アクセス</h2>
+          <div class="section-heading__line"></div>
+        </div>
+        <div class="access__content js-scroll-fade">
+          <div class="access__map">
+            <!-- ダミーの地図エリア -->
+            <div class="access__map-placeholder">
+              <i class="fa-solid fa-map-location-dot"></i>
+              <p>Google Map（※実装時にiframe埋め込み）</p>
+            </div>
+          </div>
+          <div class="access__details">
+            <h3 class="access__name">xxxxミュージアム東京</h3>
+            <dl class="access__info">
+              <dt><i class="fa-solid fa-location-dot"></i> 住所</dt>
+              <dd>〒100-0001 東京都千代田区千代田1-1（架空）</dd>
+              <dt><i class="fa-solid fa-train"></i> 電車</dt>
+              <dd>東京メトロ○○線「博物館前駅」徒歩3分<br>JR「東京駅」丸の内口より徒歩15分</dd>
+              <dt><i class="fa-solid fa-car"></i> 車</dt>
+              <dd>首都高速○○ICより約5分<br>地下駐車場完備（50台）</dd>
+              <dt><i class="fa-solid fa-clock"></i> 開館時間</dt>
+              <dd>10:00〜18:00（最終入館 17:30）</dd>
+              <dt><i class="fa-solid fa-phone"></i> 電話番号</dt>
+              <dd>03-XXXX-XXXX（架空）</dd>
+            </dl>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- セクションデバイダー: 波紋 -->
+    <div class="section-divider section-divider--reverse" aria-hidden="true">
+      <svg viewBox="0 0 1440 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M0,30 C120,50 240,10 360,30 C480,50 600,10 720,30 C840,50 960,10 1080,30 C1200,50 1320,10 1440,30 L1440,60 L0,60 Z" fill="var(--color-bg-card)"/>
+        <path d="M0,35 C120,55 240,15 360,35 C480,55 600,15 720,35 C840,55 960,15 1080,35 C1200,55 1320,15 1440,35" fill="none" stroke="var(--color-accent)" stroke-width="0.5" opacity="0.4"/>
+      </svg>
+    </div>
+
+    <!-- ===========================
+         お問い合わせセクション
+    =========================== -->
+    <section class="contact" id="contact">
+      <div class="contact__inner">
+        <div class="section-heading">
+          <p class="section-heading__en">Contact</p>
+          <h2 class="section-heading__ja">お問い合わせ</h2>
+          <div class="section-heading__line"></div>
+        </div>
+        <div class="contact__content js-scroll-fade">
+          <p class="contact__lead">ご質問・ご要望がございましたら、下記フォームよりお気軽にお問い合わせください。</p>
+          <form class="contact__form" action="#" method="post" novalidate>
+            <div class="contact__form-group">
+              <label for="contact-name" class="contact__label">お名前 <span class="contact__required">必須</span></label>
+              <input type="text" id="contact-name" name="name" class="contact__input" placeholder="山田 太郎" autocomplete="name" required>
+            </div>
+            <div class="contact__form-group">
+              <label for="contact-email" class="contact__label">メールアドレス <span class="contact__required">必須</span></label>
+              <input type="email" id="contact-email" name="email" class="contact__input" placeholder="example@email.com" autocomplete="email" required>
+            </div>
+            <div class="contact__form-group">
+              <label for="contact-subject" class="contact__label">件名</label>
+              <input type="text" id="contact-subject" name="subject" class="contact__input" placeholder="お問い合わせの件名">
+            </div>
+            <div class="contact__form-group">
+              <label for="contact-message" class="contact__label">お問い合わせ内容 <span class="contact__required">必須</span></label>
+              <textarea id="contact-message" name="message" class="contact__textarea" rows="6" placeholder="お問い合わせ内容をご記入ください" required></textarea>
+            </div>
+            <button type="submit" class="contact__submit" data-magnetic>
+              送信する <i class="fa-solid fa-paper-plane"></i>
+            </button>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ===========================
+       フッター
+  =========================== -->
+  <footer class="footer" id="footer">
+    <!-- フッターマーキー帯 -->
+    <div class="footer__marquee" aria-hidden="true">
+      <div class="footer__marquee-track">
+        <span class="footer__marquee-text">xxxxミュージアム東京 &mdash; Sword Museum Tokyo &mdash; 千年の美、ここに集う。 &mdash; </span>
+        <span class="footer__marquee-text">xxxxミュージアム東京 &mdash; Sword Museum Tokyo &mdash; 千年の美、ここに集う。 &mdash; </span>
+      </div>
+    </div>
+    <div class="footer__inner container">
+      <!-- サイトマップ 4カラム -->
+      <div class="footer__sitemap">
+        <div class="footer__column">
+          <h4 class="footer__column-title">博物館案内</h4>
+          <ul class="footer__column-list">
+            <li><a href="#">博物館紹介</a></li>
+            <li><a href="#">開館時間・料金</a></li>
+            <li><a href="#">フロアマップ</a></li>
+            <li><a href="#">バリアフリー情報</a></li>
+          </ul>
+        </div>
+        <div class="footer__column">
+          <h4 class="footer__column-title">展示・コンテンツ</h4>
+          <ul class="footer__column-list">
+            <li><a href="#">常設展示</a></li>
+            <li><a href="#">特別展</a></li>
+            <li><a href="#">過去の展覧会</a></li>
+            <li><a href="#">学芸員コラム</a></li>
+          </ul>
+        </div>
+        <div class="footer__column">
+          <h4 class="footer__column-title">施設紹介</h4>
+          <ul class="footer__column-list">
+            <li><a href="#">日本庭園</a></li>
+            <li><a href="#">カフェ・レストラン</a></li>
+            <li><a href="#">ミュージアムショップ</a></li>
+            <li><a href="#">多目的ホール</a></li>
+          </ul>
+        </div>
+        <div class="footer__column">
+          <h4 class="footer__column-title">インフォメーション</h4>
+          <ul class="footer__column-list">
+            <li><a href="#">アクセス</a></li>
+            <li><a href="#">よくある質問</a></li>
+            <li><a href="#">プライバシーポリシー</a></li>
+            <li><a href="#">お問い合わせ</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- フッター下部 -->
+      <div class="footer__bottom">
+        <div class="footer__logo">
+          <span class="footer__logo-icon">⚔</span>
+          <span class="footer__logo-text">xxxxミュージアム東京</span>
+        </div>
+        <div class="footer__social">
+          <a href="#" class="footer__social-link" aria-label="Instagram" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-instagram"></i></a>
+          <a href="#" class="footer__social-link" aria-label="X（旧Twitter）" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-x-twitter"></i></a>
+          <a href="#" class="footer__social-link" aria-label="YouTube" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-youtube"></i></a>
+          <a href="#" class="footer__social-link" aria-label="Facebook" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-facebook-f"></i></a>
+        </div>
+        <p class="footer__copyright">&copy; 2026 xxxxx. All Rights Reserved.（※架空のサイトです）</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ギャラリーライトボックス -->
+  <div class="lightbox" id="lightbox" aria-hidden="true" role="dialog" aria-modal="true" aria-label="画像拡大表示">
+    <div class="lightbox__overlay"></div>
+    <div class="lightbox__content">
+      <img class="lightbox__image" id="lightboxImage" src="" alt="">
+      <div class="lightbox__caption" id="lightboxCaption"></div>
+      <div class="lightbox__counter" id="lightboxCounter" aria-live="polite"></div>
+      <button class="lightbox__close" id="lightboxClose" aria-label="閉じる">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+      <button class="lightbox__nav lightbox__nav--prev" id="lightboxPrev" aria-label="前の画像">
+        <i class="fa-solid fa-chevron-left"></i>
+      </button>
+      <button class="lightbox__nav lightbox__nav--next" id="lightboxNext" aria-label="次の画像">
+        <i class="fa-solid fa-chevron-right"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- トップへ戻るボタン -->
+  <button class="back-to-top" id="backToTop" aria-label="ページの先頭に戻る">
+    <i class="fa-solid fa-chevron-up"></i>
+  </button>
+
+  <!-- Swiper.js -->
+  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js" defer></script>
+  <!-- GSAP + プラグイン -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollToPlugin.min.js" defer></script>
+  <!-- カスタムJS -->
+  <script src="js/main.js" defer></script>
+</body>
+</html>
