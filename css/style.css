@@ -156,6 +156,15 @@ button {
   transform: translateY(30px);
 }
 
+/* ----- JS未読込時・GSAP未発火時の安全策 ----- */
+/* noscript 環境やCDN障害時にコンテンツが見えないままになるのを防止 */
+@media (scripting: none) {
+  .js-scroll-fade {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+
 /* ============================================
    z-index 階層リファレンス (数値が大きいほど前面)
    ============================================

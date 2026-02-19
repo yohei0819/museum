@@ -34,6 +34,12 @@
   ------------------------------------------ */
   if (hasGSAP) {
     gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
+
+    // モバイルブラウザのアドレスバー表示/非表示によるビューポート
+    // リサイズで ScrollTrigger が再計算・誤動作するのを防止
+    ScrollTrigger.config({
+      ignoreMobileResize: true,
+    });
   }
 
   /* ------------------------------------------
@@ -122,23 +128,67 @@
 
     // GSAPが未検出の場合、非表示要素のみ表示してアニメーション初期化をスキップ
     if (!hasGSAP) {
-      $$('.js-scroll-fade').forEach((el) => {
-        el.style.opacity = '1';
-        el.style.transform = 'none';
-      });
+      showAllHiddenElements();
       return;
     }
 
-    initGSAPAnimations();
-    initHeroParticles();
-    initCountUp();
-    initTextSplitAnimations();
-    initRevealMasks();
-    initHorizontalScroll();
-    initParallaxLayers();
-    initStrokeDraw();
-    initMagneticButtons();
-    initTiltCards();
+    // 各モジュールを個別に try/catch で保護
+    // 1つのモジュールが失敗しても他のモジュールは正常に初期化される
+    const modules = [
+      ['GSAPAnimations',    initGSAPAnimations],
+      ['HeroParticles',     initHeroParticles],
+      ['CountUp',           initCountUp],
+      ['TextSplit',         initTextSplitAnimations],
+      ['RevealMasks',       initRevealMasks],
+      ['HorizontalScroll',  initHorizontalScroll],
+      ['ParallaxLayers',    initParallaxLayers],
+      ['StrokeDraw',        initStrokeDraw],
+      ['MagneticButtons',   initMagneticButtons],
+      ['TiltCards',         initTiltCards],
+    ];
+
+    modules.forEach(([name, fn]) => {
+      try {
+        fn();
+      } catch (err) {
+        console.error(`[main.js] ${name} の初期化に失敗:`, err);
+      }
+    });
+
+    // モバイルブラウザはページ読み込み直後にビューポートが安定しないことがあるため、
+    // 初期化完了後に ScrollTrigger の位置計算をリフレッシュする
+    requestAnimationFrame(() => {
+      ScrollTrigger.refresh();
+    });
+
+    // 安全策: 初期化後5秒経ってもまだ非表示のままの要素を強制表示する
+    // （ScrollTrigger が何らかの理由で発火しなかった場合の救済）
+    setTimeout(() => {
+      $$('.js-scroll-fade').forEach((el) => {
+        const computed = window.getComputedStyle(el);
+        if (computed.opacity === '0') {
+          el.style.opacity = '1';
+          el.style.transform = 'none';
+          el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+        }
+      });
+    }, 5000);
+  }
+
+  /**
+   * 非表示のアニメーション対象要素をすべて即座に表示する
+   * GSAP が読み込めなかった場合や、アニメーション無効設定時のフォールバック
+   */
+  function showAllHiddenElements() {
+    $$('.js-scroll-fade').forEach((el) => {
+      el.style.opacity = '1';
+      el.style.transform = 'none';
+    });
+    // clip-path で隠されている要素も表示
+    $$('.about__image, .exhibition__item').forEach((el) => {
+      el.style.clipPath = 'none';
+      el.style.webkitClipPath = 'none';
+    });
   }
 
   // ページ読み込み完了後にローディングを非表示
@@ -420,10 +470,7 @@
   function initGSAPAnimations() {
     if (prefersReducedMotion) {
       // アニメーション無効時: 非表示要素を即座に表示
-      $$('.js-scroll-fade').forEach((el) => {
-        el.style.opacity = '1';
-        el.style.transform = 'none';
-      });
+      showAllHiddenElements();
       return;
     }
 
@@ -1203,10 +1250,13 @@
     // About画像
     const aboutImage = $('.about__image');
     if (aboutImage) {
+      // iOS Safari 対応: -webkit-clip-path も同時に設定
+      gsap.set(aboutImage, { webkitClipPath: 'inset(0 100% 0 0)' });
       gsap.fromTo(aboutImage,
         { clipPath: 'inset(0 100% 0 0)' },
         {
           clipPath: 'inset(0 0% 0 0)',
+          webkitClipPath: 'inset(0 0% 0 0)',
           duration: 1.2,
           ease: 'power3.inOut',
           scrollTrigger: {
@@ -1231,10 +1281,13 @@
           ? 'inset(0 100% 0 0)'
           : 'inset(0 0 0 100%)';
 
+        // iOS Safari 対応: -webkit-clip-path も同時に設定
+        gsap.set(item, { webkitClipPath: fromClip });
         gsap.fromTo(item,
           { clipPath: fromClip },
           {
             clipPath: 'inset(0 0% 0 0%)',
+            webkitClipPath: 'inset(0 0% 0 0%)',
             duration: 0.9,
             ease: 'power2.out',
             scrollTrigger: {
