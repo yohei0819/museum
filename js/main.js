@@ -103,6 +103,9 @@
   /** ホバー可能なポインター入力デバイスか判定（タッチ専用デバイスではfalse） */
   const hasHoverCapability = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
 
+  /** スマートフォン判定（640px以下）: アニメーションを全て無効化 */
+  const isMobile = window.matchMedia('(max-width: 640px)').matches;
+
   /** Exhibition・Gallery カードの共通セレクタ（チルト / カーソル表示等で共用） */
   const CARD_TARGETS = '.exhibition__item, .gallery__item';
 
@@ -126,8 +129,8 @@
       els.loadingOverlay.classList.add('is-hidden');
     }
 
-    // GSAPが未検出の場合、非表示要素のみ表示してアニメーション初期化をスキップ
-    if (!hasGSAP) {
+    // GSAPが未検出 または スマートフォンの場合、アニメーション初期化をスキップ
+    if (!hasGSAP || isMobile) {
       showAllHiddenElements();
       return;
     }

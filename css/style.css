@@ -2228,6 +2228,65 @@ button {
 }
 
 /* ============================================
+   スマートフォン: アニメーション無効化
+   モバイル実機での安定表示を優先し、
+   全アニメーション・トランジションを無効化する
+   ============================================ */
+@media (max-width: 640px) {
+  .js-scroll-fade {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  .about__image,
+  .exhibition__item {
+    clip-path: none !important;
+    -webkit-clip-path: none !important;
+  }
+
+  .scroll-progress {
+    display: none;
+  }
+
+  .hero__scroll-indicator {
+    display: none;
+  }
+
+  .hero__slide-subtitle,
+  .hero__slide-title,
+  .hero__slide-desc {
+    opacity: 1 !important;
+    transform: none !important;
+    animation: none !important;
+  }
+
+  .hero__slide-title {
+    -webkit-text-fill-color: var(--color-text-primary);
+    background: none;
+  }
+
+  .section-heading__en,
+  .section-heading__line,
+  .section-heading__ja {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  .char-split__char {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  .footer__marquee-track {
+    animation: none;
+  }
+
+  .header__nav-link--cta::before {
+    animation: none;
+  }
+}
+
+/* ============================================
    アクセシビリティ: アニメーション無効化
    ユーザーが「視覚効果を減らす」設定を有効にしている場合、
    全アニメーションを無効化して快適に閲覧できるようにする
