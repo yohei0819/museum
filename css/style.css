@@ -2233,6 +2233,16 @@ button {
    全アニメーション・トランジションを無効化する
    ============================================ */
 @media (max-width: 640px) {
+  /* 全要素のアニメーション・トランジションを一括無効化 */
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
   .js-scroll-fade {
     opacity: 1 !important;
     transform: none !important;
@@ -2250,6 +2260,11 @@ button {
 
   .hero__scroll-indicator {
     display: none;
+  }
+
+  .hero__slide-image {
+    transition: none !important;
+    transform: scale(1) !important;
   }
 
   .hero__slide-subtitle,
@@ -2278,11 +2293,11 @@ button {
   }
 
   .footer__marquee-track {
-    animation: none;
+    animation: none !important;
   }
 
   .header__nav-link--cta::before {
-    animation: none;
+    animation: none !important;
   }
 }
 
