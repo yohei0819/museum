@@ -1808,6 +1808,7 @@ button {
    JS側でlockScroll/unlockScrollユーティリティでカウント管理 */
 .no-scroll {
   overflow: hidden;
+  overscroll-behavior: none;
 }
 
 /* フォーカス可視化（アクセシビリティ） */

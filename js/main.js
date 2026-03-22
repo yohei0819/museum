@@ -106,9 +106,6 @@
   /** スマートフォン判定（640px以下）: アニメーションを全て無効化 */
   const isMobile = window.matchMedia('(max-width: 640px)').matches;
 
-  /** Exhibition・Gallery カードの共通セレクタ（チルト / カーソル表示等で共用） */
-  const CARD_TARGETS = '.exhibition__item, .gallery__item';
-
   /* ============================================
      1. ローディングオーバーレイ
      ============================================ */
@@ -297,6 +294,7 @@
    */
   function closeMobileMenu() {
     if (!els.hamburger || !els.mobileMenu) return;
+    if (!els.mobileMenu.classList.contains('is-open')) return;
     els.hamburger.classList.remove('is-active');
     els.mobileMenu.classList.remove('is-open');
     unlockScroll();
@@ -308,6 +306,7 @@
   /** モバイルメニューを開く */
   function openMobileMenu() {
     if (!els.hamburger || !els.mobileMenu) return;
+    if (els.mobileMenu.classList.contains('is-open')) return;
     els.hamburger.classList.add('is-active');
     els.mobileMenu.classList.add('is-open');
     lockScroll();
@@ -850,13 +849,8 @@
     // ヒーローが画面外のとき rAF を停止しパフォーマンスを節約
     let isHeroVisible = true;
 
+    /** アニメーションループ本体 */
     function animate() {
-      // ヒーローが画面外ならループを停止
-      if (!isHeroVisible) { animId = null; return; }
-
-      // 既にアニメーションループが動作中なら二重起動を防止
-      if (animId) cancelAnimationFrame(animId);
-
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
       particles.forEach((p) => {
@@ -876,21 +870,40 @@
       });
 
       ctx.globalAlpha = 1;
+
+      // ヒーローが画面外ならループを停止
+      if (!isHeroVisible) {
+        animId = null;
+        return;
+      }
       animId = requestAnimationFrame(animate);
+    }
+
+    /** アニメーションを安全に開始する（二重起動を防止） */
+    function startAnimation() {
+      if (animId) return;
+      animId = requestAnimationFrame(animate);
+    }
+
+    /** アニメーションを安全に停止する */
+    function stopAnimation() {
+      if (animId) {
+        cancelAnimationFrame(animId);
+        animId = null;
+      }
     }
 
     resizeCanvas();
     initParticles();
-    animate();
+    startAnimation();
 
     const heroSection = document.getElementById('hero');
     if (heroSection && 'IntersectionObserver' in window) {
       new IntersectionObserver(
         ([entry]) => {
-          const wasVisible = isHeroVisible;
           isHeroVisible = entry.isIntersecting;
-          // 非表示→表示に変わったらループ再開
-          if (!wasVisible && isHeroVisible) animate();
+          // 非表示→表示に変わったらループ再開（startAnimation内で二重起動を防止）
+          if (isHeroVisible) startAnimation();
         },
         { threshold: 0 }
       ).observe(heroSection);
@@ -898,11 +911,11 @@
 
     // リサイズ対応（集約ハンドラ経由: 旧ループ停止 → Canvas再計算 → パーティクル数再算出 → 再開）
     onResize(() => {
-      if (animId) cancelAnimationFrame(animId);
+      stopAnimation();
       resizeCanvas();
       particleCount = calcParticleCount();
       initParticles();
-      if (isHeroVisible) animate();
+      if (isHeroVisible) startAnimation();
     });
   }
 
@@ -1098,20 +1111,24 @@
           lightboxCap.textContent = data.fullCaption;
           updateCounter();
 
-          // 前回のナビゲーションで残った孤立リスナーを除去してから再登録
+          // 前回のナビゲーションで残った孤立リスナーを安全に除去
           lightboxImg.removeEventListener('load',  fadeInLightboxImage);
           lightboxImg.removeEventListener('error', fadeInLightboxImage);
-          // 画像の読み込み完了を待ってフェードイン（キャッシュ済みでも load は非同期発火）
-          lightboxImg.addEventListener('load',  fadeInLightboxImage, { once: true });
-          lightboxImg.addEventListener('error', fadeInLightboxImage, { once: true });
+
+          // 画像ロード完了後にフェードインする共通処理
+          const onImageReady = () => {
+            lightboxImg.removeEventListener('load',  onImageReady);
+            lightboxImg.removeEventListener('error', onImageReady);
+            fadeInLightboxImage();
+          };
+
+          lightboxImg.addEventListener('load',  onImageReady, { once: true });
+          lightboxImg.addEventListener('error', onImageReady, { once: true });
           lightboxImg.src = data.src;
 
-          // キャッシュ済み画像（同一src再設定等）は load イベントが発火しないため
-          // complete フラグを確認して手動でフェードインする
+          // キャッシュ済み画像は load イベントが発火しないため手動でフェードイン
           if (lightboxImg.complete) {
-            lightboxImg.removeEventListener('load',  fadeInLightboxImage);
-            lightboxImg.removeEventListener('error', fadeInLightboxImage);
-            fadeInLightboxImage();
+            onImageReady();
           }
         },
       });
@@ -1361,7 +1378,9 @@
     if (!hasHoverCapability) return;
     if (!hasGSAP) return;
 
-    const tiltTargets = $$(CARD_TARGETS);
+    /** Exhibition・Gallery カードの共通セレクタ */
+    const CARD_SELECTOR = '.exhibition__item, .gallery__item';
+    const tiltTargets = $$(CARD_SELECTOR);
     if (!tiltTargets.length) return;
 
     /** チルトの最大角度（度） */
